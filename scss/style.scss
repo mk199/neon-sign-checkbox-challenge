@@ -1,0 +1,141 @@
+@import url("https://fonts.googleapis.com/css?family=Monoton");
+
+html {
+  font-size: 16px;
+  font-family: monospace;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #222;
+  background-image: url('data:image/svg+xml,%3Csvg width="42" height="44" viewBox="0 0 42 44" xmlns="http://www.w3.org/2000/svg"%3E%3Cg id="Page-1" fill="none" fill-rule="evenodd"%3E%3Cg id="brick-wall" fill="#000000" fill-opacity="0.4"%3E%3Cpath d="M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.o-pen {
+  text-align: center;
+}
+.a-neonText {
+  font-size: 15vw;
+  color: rgba(#fff, 0.5);
+  text-shadow: 0 0 0.5rem #000, 0 0.7rem 0.5rem #000;
+  text-align: center;
+  
+  @media screen and (min-width: 800px) {
+    font-size: 8rem;
+  }
+
+  .a-neonToggle:checked ~ &.-main {
+    animation-name: flickering-red;
+    animation-iteration-count: infinite;
+    animation-duration: 7.5s;
+  }
+
+  .a-neonToggle:checked ~ &.-frame {
+    animation-name: flickering-lime;
+    animation-iteration-count: infinite;
+    animation-duration: 5s;
+
+    &:first-of-type {
+      animation-duration: 7s;
+    }
+  }
+}
+.a-neonToggle {
+  display: none;
+}
+
+.m-switch {
+  cursor: pointer;
+  display: inline-block;
+  margin: auto;
+  //background-color: black;
+  bottom: 1rem;
+  border: .5rem solid black;
+  box-shadow: 0 .25rem .25rem rgba(#000, 0.4), 0 .5rem .25rem rgba(#000, 0.4);
+  background: #400000 linear-gradient(to top, #f77 0, #f55 15%, #f00 15%, #f00 85%, rgba(#000, .2) 85%, rgba(#000, .3) 100%) no-repeat scroll center / 100% 100%;
+  
+  &__part {
+    transition: all .1s ease-in-out 0s;
+    .a-neonToggle:checked ~ .m-switch & {
+      box-shadow: 0 0 1rem #f00;
+      transition: all .1s ease-in-out .1s;
+    }
+  }
+}
+.a-switch {
+  background-color: #400000;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 500;
+  width: 1.25em;
+  height: 1.25em;
+  line-height: 1.25em;
+  padding: .25em;
+  text-align: center;
+  
+  transition: all .1s ease-in-out;
+  user-select: none;
+  
+  .a-neonToggle:checked ~ .m-switch & {
+    background-color: #d33;
+  }
+  
+  &.-on {
+    transform-origin: bottom center;
+    transform: scaleY(.7);
+    
+    .a-neonToggle:checked ~ .m-switch & {
+      transform: scaleY(1);
+    }
+  }
+  &.-off {
+    transform-origin: top center;
+    transform: scaleY(1);
+    
+    .a-neonToggle:checked ~ .m-switch & {
+      transform: scaleY(.7);
+      
+    }
+  }
+}
+
+.a-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  //background-color: rgba(#000, .4);
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.65) 100%);
+  mix-blend-mode: screen;
+}
+
+@mixin neonFlick($name,$color) {
+  @keyframes flickering-#{$name} {
+    0%,
+    14%,
+    14.2%,
+    49.6%,
+    51%,
+    52%,
+    52.2%,
+    100% {
+      color: rgba(#fff, 0.8);
+      text-shadow: 0 0 .25rem $color, 0 0 .25rem $color, 0 0 5rem $color,
+        0 0 0.5rem $color, 0 0 50rem $color;
+    }
+    14.1%,
+    49.7%,
+    52.1% {
+      color: rgba(#fff, 0.5);
+      text-shadow: 0 0 0.5rem #000, 0 0.7rem 0.5rem #000;
+    }
+  }
+}
+
+@include neonFlick("red", #f00);
+@include neonFlick("lime", lime);
